@@ -1,9 +1,18 @@
-### Well hello there!
+### TIC-TAC-TOE GAME!
 
-This repository is meant to provide an example for *forking* a repository on GitHub.
+A simple tic tac toe game.
+### How to use:
 
-Creating a *fork* is producing a personal copy of someone else's project. Forks act as a sort of bridge between the original repository and your personal copy. You can submit *Pull Requests* to help make other people's projects better by offering your changes up to the original project. Forking is at the core of social coding at GitHub.
+1. Clone the repository.
+2. open the html file in your browser.
 
-After forking this repository, you can make some changes to the project, and submit [a Pull Request](https://github.com/octocat/Spoon-Knife/pulls) as practice.
+ Game Modes:
+Player vs. Player (PvP): Two players can take turns to play against each other.
+Player vs. Computer (PvC): You can play against the computer AI.
+Features:
+Intuitive Interface: A simple and user-friendly interface.
+Win/Loss/Draw Tracking: Keeps track of wins, losses, and draws for both players.
+Responsive Design: Works well on different screen sizes.
 
-For some more information on how to fork a repository, [check out our guide, "Forking Projects""](http://guides.github.com/overviews/forking/). Thanks! :sparkling_heart:
+3. Run the html file.
+

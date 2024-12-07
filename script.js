@@ -1,49 +1,49 @@
-var currentPlayer = "X";
+var currentPlayer = "X";//global variable, stores the current players symbol(x or o)
 
-var checkedBoxes = [];
+var checkedBoxes = [];//stores information about marked boxes
 
-var turnCount = 0;
+var turnCount = 0;//tracks the total number of moves played
 
-var gameMode = 'PvP';
+var gameMode = 'PvP';//stores the current game mode(PvP or PvC)
 
-
+//Added event listener to each box
 document.querySelectorAll('.box').forEach((value, key) => {
     value.addEventListener("click", () => {
-        onCheckBox(value);
+        onCheckBox(value);/handle box clicks
     });
 });
-
+//handle game mode change
 function onGameModeChange(mode, _el) {
     if (_el.classList.contains('mode-selected'))
-        return;
-    _el.classList.add('mode-selected');
+        return;//prevent mutliple selections
+    _el.classList.add('mode-selected');//mark the selected mode
 
     if (mode == 'PvP') {
-        document.querySelector(`.mode.PvC`).classList.remove('mode-selected');
+        document.querySelector(`.mode.PvC`).classList.remove('mode-selected');//deselect PvC mode
     }
     else if (mode == 'PvC') {
-        document.querySelector(`.mode.PvP`).classList.remove('mode-selected');
+        document.querySelector(`.mode.PvP`).classList.remove('mode-selected');//deselect PvP mode
     }
-    gameMode = mode;
-    newGame();
+    gameMode = mode;//update game mode
+    newGame();//start a new game
 }
-
+//handle box clicks
 function onCheckBox(element) {
-    checkedBoxes.push({ box: element.id, player: currentPlayer });
-    checkElement(element);
+    checkedBoxes.push({ box: element.id, player: currentPlayer });//record the move
+    checkElement(element);//mark the box on the ui
     turnCount++;
-    var gameStatus = checkWinner();
-    switchPlayer();
+    var gameStatus = checkWinner();//click for a winner or draw
+    switchPlayer();//switch to next player
     if (turnCount % 2 == 1 && gameStatus != 'game over' && gameStatus != 'game drawn' && gameMode == "PvC"){
         computerPlays();
-    }
+    }//computers turn in PvC mode
 }
-
+//mark the box on ui
 function checkElement(element){
     element.value = currentPlayer;
     element.disabled = "disabled";
 }
-
+//remove a mark from the box
 function onUncheckBox(element, isImplicit = false) {
     checkedBoxes = checkedBoxes.filter(b => b.box != element.id);
     if (!isImplicit) {
@@ -53,13 +53,13 @@ function onUncheckBox(element, isImplicit = false) {
         switchPlayer();
     }
 }
-
+//switch to current player
 function switchPlayer() {
     currentPlayer = currentPlayer == "X" ? "O" : "X";
     document.querySelector('.current-player').textContent = currentPlayer;
 }
 
-
+//check for winner or draw
 function checkWinner(isCheckOnly = false) {
     if (currentPlayer == "X") {
         var xs = checkedBoxes.filter(item => {
@@ -83,7 +83,7 @@ function checkWinner(isCheckOnly = false) {
 
 }
 
-
+//calculate the score based on current player's positions
 function calculateScore(positions, isCheckOnly) {
 
     if (positions.filter(i => { return i.x == i.y }).length == 3) {
@@ -102,7 +102,7 @@ function calculateScore(positions, isCheckOnly) {
         var consecutiveHorizontal = positions.filter(p => {
             return p.x == i;
         });
-        if (consecutiveHorizontal.length == 3) {
+        if (consecutiveHorizontal.length == 3) {//horizontal win
             if (!isCheckOnly)
                 showWinner();
             return 'game over';
@@ -110,20 +110,20 @@ function calculateScore(positions, isCheckOnly) {
         var consecutiveVertical = positions.filter(p => {
             return p.y == i;
         });
-        if (consecutiveVertical.length == 3) {
+        if (consecutiveVertical.length == 3) {//vertical win
             if (!isCheckOnly)
                 showWinner();
             return 'game over';
         }
     }
-    if (positions.length == 5) {
+    if (positions.length == 5) {//draw
         if (!isCheckOnly)
             showWinner(true);
         return 'game drawn';
     }
     return 'game on';
 }
-
+//clear the gameboard
 function clearBoard() {
     document.querySelectorAll('.box').forEach((value, index) => {
         value.value = '';
@@ -132,7 +132,7 @@ function clearBoard() {
         turnCount = 0;
     })
 }
-
+//display the winner or draw message
 function showWinner(noWinner = false) {
 
     if (noWinner) {
